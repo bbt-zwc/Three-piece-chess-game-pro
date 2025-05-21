@@ -3,7 +3,7 @@
 #include <stdarg.h>
 
 uint8_t Serial_TxPacket[6];				//定义发送数据包数组，数据包格式：FF 01 02 03 04 FE
-uint8_t Serial_RxPacket1[8];
+uint8_t Serial_RxPacket1[13];
 uint8_t Serial_RxPacket2[4];				//定义接收数据包数组
 uint8_t Serial_RxFlag1;					//定义接收数据包标志位
 uint8_t Serial_RxFlag2;
@@ -277,7 +277,7 @@ void USART1_IRQHandler(void)
 		{
 			Serial_RxPacket1[pRxPacket] = RxData1;	//将数据存入数据包数组的指定位置
 			pRxPacket ++;				//数据包的位置自增
-			if (pRxPacket >= 6)			//如果收够4个数据
+			if (pRxPacket >= 11)			//如果收够4个数据
 			{
 				RxState = 2;			//置下一个状态
 			}

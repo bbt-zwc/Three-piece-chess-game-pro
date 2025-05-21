@@ -2,8 +2,15 @@
 #include "stm32f10x.h"
 #include "Delay.h"
 #include "position.h"
+#include "math.h" 
 
-int pxy[20][2];
+#include "OLED.h"
+             
+#ifndef PI  
+#define PI 3.14159265358979323846  
+#endif  
+
+
 int pxy[20][2] = {
 	{0,0}, //*0ºÅ×ø±ê
 	{121,97},//*1ºÅ×ø±ê
@@ -26,3 +33,35 @@ int pxy[20][2] = {
 	{226,151},//*18ºÅ×ø±ê
 	{226,175}//*19ºÅ×ø±ê
 };
+
+
+void rotateCoordinates(int angleDegrees)
+{
+	//	              pxy[1][0]=pxy[1][0]-2;
+    if  (angleDegrees<47&angleDegrees>43)
+		{
+		  angleDegrees=45;
+		}
+		
+    float angleRadians = (90-(angleDegrees-45))* PI / 180.0;  
+    
+    for (int i = 1; i < 10; i++)
+		{  
+        if (i == 5) {  
+            
+            pxy[i][0] = 151;  
+            pxy[i][1] = 128;  
+        } 
+				else 
+				{  
+					
+            float relativeX = pxy[i][0] - 151;  
+            float relativeY = pxy[i][1] - 128;  
+            pxy[i][0] = relativeX * cos(angleRadians) - relativeY * sin(angleRadians) + 151;  
+            pxy[i][1] = relativeX * sin(angleRadians) + relativeY * cos(angleRadians) + 128;
+OLED_ShowNum(4, 10,pxy[1][0], 2);
+OLED_ShowNum(4, 13,pxy[1][1], 2);					
+        }  
+    }  
+}
+	

@@ -6,6 +6,7 @@
 
 int x,y,go1,go2;
 int speed = 150;
+extern int pxy[20][2];
 
 void Elm_Init(void)
 {
@@ -18,9 +19,6 @@ RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
 	GPIO_Init(GPIOA, &GPIO_InitStructure);
 }
 
-
-	
-	
 void Elm_open(int a)
 {
 	if(a==1)
@@ -36,16 +34,18 @@ void Elm_open(int a)
 void take_qi(int b)
 {
 //Delay_ms(500);//*抖动
-	Motor_Run_3(0,6,80) ; 
+	Motor_Run_3(0,6,speed) ; 
 	Elm_open(b);
-Delay_ms(1000);//*抖动
-	Motor_Run_3(1,6,80) ; 
+  Delay_ms(300);//*抖动
+	Motor_Run_3(1,6,speed) ; 
 }	
 
 
 void gogogo(int p11,int p12)
 {
-	Motor_Run_3(1,6,80) ;
+	
+	Motor_Run_3(1,6,speed) ;
+	
 	//*从原点到p1位置
 //	p11 = 19;
 //		p12 = 13;
@@ -56,7 +56,7 @@ void gogogo(int p11,int p12)
 		Motor_Run_1(go1,x,speed);
 		Motor_Run_2(go2,y,speed);
 		take_qi(1);
-		Delay_ms(500);
+		Delay_ms(300);
 		//*再到p2位置
 		if(pxy[p12][0]>=pxy[p11][0])
 		{
@@ -81,7 +81,7 @@ void gogogo(int p11,int p12)
 		Motor_Run_1(go1,x,speed);
 		Motor_Run_2(go2,y,speed);
 		take_qi(0);
-		Delay_ms(500);
+		Delay_ms(300);
 		//*再回到原点
 		x = pxy[p12][0];
 		y = pxy[p12][1];
@@ -89,7 +89,7 @@ void gogogo(int p11,int p12)
 		go2 = 0;
 		Motor_Run_1(go1,x,speed);
 		Motor_Run_2(go2,y,speed);
-		Delay_ms(500);
-		Motor_Run_3(0,6,80) ; 
+		Delay_ms(300);
+		Motor_Run_3(0,6,speed) ; 
 	
 }
